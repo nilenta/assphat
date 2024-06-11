@@ -25,8 +25,14 @@ public class ContainerPlayer extends Container {
         }
 
         for(var3 = 0; var3 < 4; ++var3) {
-            this.addSlot(new SlotArmor(this, var1, var1.getSizeInventory() - 1 - var3, 8, 8 + var3 * 18, var3));
+            this.addSlot(new SlotArmor(this, var1, var1.getSizeInventory() - 8 - var3, 8, 8 + var3 * 18, var3));
+            this.addSlot(new SlotCosmetic(this, var1, var1.getSizeInventory() - 4 - var3, 80, 8 + var3 * 18, var3));
         }
+        
+        for(var3 = 0; var3 < 3; ++var3) {
+        	this.addSlot(new SlotCosmetic(this, var1, var1.getSizeInventory() - 1 - var3, 104 + var3 * 18, 63, var3));
+        }
+
 
         for(var3 = 0; var3 < 3; ++var3) {
             for(var4 = 0; var4 < 9; ++var4) {

@@ -2,8 +2,7 @@ package net.minecraft.src;
 
 public class InventoryPlayer implements IInventory {
     public ItemStack[] mainInventory = new ItemStack[36];
-    public ItemStack[] armorInventory = new ItemStack[4];
-    public ItemStack[] cosmeticInventory = new ItemStack[4];
+    public ItemStack[] armorInventory = new ItemStack[11];
     
     public int currentItem = 0;
     public EntityPlayer player;
@@ -218,22 +217,13 @@ public class InventoryPlayer implements IInventory {
                 var1.setTag(var3);
             }
         }
-        
-        for(var2 = 0; var2 < this.cosmeticInventory.length; ++var2) {
-            if (this.cosmeticInventory[var2] != null) {
-                var3 = new NBTTagCompound();
-                var3.setByte("Slot", (byte)(var2 + 200));
-                this.cosmeticInventory[var2].writeToNBT(var3);
-                var1.setTag(var3);
-            }
-        }
 
         return var1;
     }
 
     public void readFromNBT(NBTTagList var1) {
         this.mainInventory = new ItemStack[36];
-        this.armorInventory = new ItemStack[4];
+        this.armorInventory = new ItemStack[11];
 
         for(int var2 = 0; var2 < var1.tagCount(); ++var2) {
             NBTTagCompound var3 = (NBTTagCompound)var1.tagAt(var2);
@@ -247,16 +237,13 @@ public class InventoryPlayer implements IInventory {
                 if (var4 >= 100 && var4 < this.armorInventory.length + 100) {
                     this.armorInventory[var4 - 100] = var5;
                 }
-                if (var4 >= 200 && var4 < this.cosmeticInventory.length + 200) {
-                    this.cosmeticInventory[var4 - 200] = var5;
-                }
             }
         }
 
     }
 
     public int getSizeInventory() {
-        return this.mainInventory.length + 4;
+        return this.mainInventory.length + 11;
     }
 
     public ItemStack getStackInSlot(int var1) {
