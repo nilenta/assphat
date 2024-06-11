@@ -42,7 +42,6 @@ public abstract class EntityPlayer extends EntityLiving {
     public double speed_boost = 1.0D;
     public double jump_boost = 1.0D;
     public int speed_boost_timer = 0;
-    public boolean sprint = false;
     public int cocaine_amount;
     public boolean zoom = false;
     
@@ -50,6 +49,9 @@ public abstract class EntityPlayer extends EntityLiving {
     public int radiation = 0;
     public boolean radiated = false;
     public int max_radiation = 70;
+
+    public PlayerCapabilities playerCapabilities;
+    protected int field_35216_aw;
 
     public EntityPlayer(World var1) {
         super(var1);
@@ -60,9 +62,11 @@ public abstract class EntityPlayer extends EntityLiving {
         this.setLocationAndAngles((double)var2.x + 0.5D, (double)(var2.y + 1), (double)var2.z + 0.5D, 0.0F, 0.0F);
         this.health = 20;
         this.entityType = "humanoid";
+        this.field_35216_aw = 0;
         this.unused180 = 180.0F;
         this.fireResistance = 20;
         this.texture = "/mob/char.png";
+        this.playerCapabilities = new PlayerCapabilities();
     }
 
     protected void entityInit() {
@@ -136,6 +140,10 @@ public abstract class EntityPlayer extends EntityLiving {
             this.startMinecartRidingCoordinate = null;
         }
 
+        if(this.fire > 0 && this.playerCapabilities.gameType == 1) {
+            this.fire = 0;
+        }
+
         if (this.is_speed_boost_enabled) {
         	++this.speed_boost_timer;
         	if (this.speed_boost_timer > 3600) { // reset after 3 mins
@@ -195,6 +203,10 @@ public abstract class EntityPlayer extends EntityLiving {
     }
 
     public void onLivingUpdate() {
+        if(this.field_35216_aw > 0) {
+            --this.field_35216_aw;
+        }
+
         if (this.worldObj.difficultySetting == 0 && this.health < 20 && this.ticksExisted % 20 * 12 == 0) {
             this.heal(1);
         }
@@ -375,6 +387,8 @@ public abstract class EntityPlayer extends EntityLiving {
             this.playerSpawnCoordinate = new ChunkCoordinates(var1.getInteger("SpawnX"), var1.getInteger("SpawnY"), var1.getInteger("SpawnZ"));
         }
 
+        this.playerCapabilities.flying = var1.getBoolean("isFlying");
+
     }
 
     public void writeEntityToNBT(NBTTagCompound var1) {
@@ -388,6 +402,8 @@ public abstract class EntityPlayer extends EntityLiving {
             var1.setInteger("SpawnY", this.playerSpawnCoordinate.y);
             var1.setInteger("SpawnZ", this.playerSpawnCoordinate.z);
         }
+
+        var1.setBoolean("isFlying", this.playerCapabilities.flying);
 
     }
 
@@ -411,7 +427,7 @@ public abstract class EntityPlayer extends EntityLiving {
 
     public boolean attackEntityFrom(Entity var1, int var2) {
         this.entityAge = 0;
-        if (this.health <= 0) {
+        if (this.health <= 0 || this.playerCapabilities.invulnerable) {
             return false;
         } else {
             if (this.isPlayerSleeping() && !this.worldObj.multiplayerWorld) {
@@ -782,7 +798,16 @@ public abstract class EntityPlayer extends EntityLiving {
         double var3 = this.posX;
         double var5 = this.posY;
         double var7 = this.posZ;
-        super.moveEntityWithHeading(var1, var2);
+        if(this.playerCapabilities.flying) {
+            double d3 = this.motionY;
+            float f2 = this.field_35168_bw;
+            this.field_35168_bw = 0.05F;
+            super.moveEntityWithHeading(var1, var2);
+            this.motionY = d3 * 0.6D;
+            this.field_35168_bw = f2;
+        } else {
+            super.moveEntityWithHeading(var1, var2);
+        }
         this.addMovementStat(this.posX - var3, this.posY - var5, this.posZ - var7);
     }
 
@@ -839,12 +864,16 @@ public abstract class EntityPlayer extends EntityLiving {
 
     }
 
-    protected void fall(float var1) {
-        if (var1 >= 2.0F) {
-            this.addStat(StatList.distanceFallenStat, (int)Math.round((double)var1 * 100.0D));
-        }
+    protected void fall(float f) {
+        if(this.playerCapabilities.canFly) {
+            this.fallDistance = 0.0F;
+        } else {
+            if(f >= 2.0F) {
+                this.addStat(StatList.distanceFallenStat, (int)Math.round((double)f * 100.0D));
+            }
 
-        super.fall(var1);
+            super.fall(f);
+        }
     }
 
     public void onKillEntity(EntityLiving var1) {
@@ -870,4 +899,6 @@ public abstract class EntityPlayer extends EntityLiving {
             this.inPortal = true;
         }
     }
+
+
 }

@@ -46,6 +46,16 @@ public class EntityPlayerSP extends EntityPlayer {
     }
 
     public void onLivingUpdate() {
+        if (this.playerCapabilities.gameType == 1) {
+            this.playerCapabilities.canFly = true;
+            this.playerCapabilities.invulnerable = true;
+        } else {
+            this.playerCapabilities.canFly = false;
+            this.playerCapabilities.invulnerable = false;
+            if (this.playerCapabilities.flying) {
+                this.playerCapabilities.flying = false;
+            }
+        }
         if (!this.mc.statFileWriter.hasAchievementUnlocked(AchievementList.openInventory)) {
             this.mc.guiAchievement.queueAchievementInformation(AchievementList.openInventory);
         }
@@ -89,9 +99,33 @@ public class EntityPlayerSP extends EntityPlayer {
             --this.timeUntilPortal;
         }
 
+        boolean var4 = this.movementInput.jump;
         this.movementInput.updatePlayerMoveState(this);
         if (this.movementInput.sneak && this.ySize < 0.2F) {
             this.ySize = 0.2F;
+        }
+
+        if(this.playerCapabilities.canFly && !var4 && this.movementInput.jump) {
+            if(this.field_35216_aw == 0) {
+                this.field_35216_aw = 7;
+            } else {
+                this.playerCapabilities.flying = !this.playerCapabilities.flying;
+                this.field_35216_aw = 0;
+            }
+        }
+
+        if(this.playerCapabilities.flying) {
+            if(!this.playerCapabilities.canFly) {
+                this.playerCapabilities.flying = false;
+            }
+
+            if(this.movementInput.sneak) {
+                this.motionY -= 0.15D;
+            }
+
+            if(this.movementInput.jump) {
+                this.motionY += 0.15D;
+            }
         }
         
         /*if (this.radiation > this.max_radiation) {

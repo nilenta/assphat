@@ -26,4 +26,8 @@ public class StepSound {
     public String stepSoundDir2() {
         return "step." + this.field_1678_a;
     }
+
+    public String func_1145_d() {
+        return "step." + this.field_1678_a;
+    }
 }

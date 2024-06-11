@@ -57,6 +57,8 @@ public abstract class EntityLiving extends Entity {
     private Entity currentTarget;
     protected int numTicksToChaseTarget = 0;
     public String username;
+    public float field_35169_bv = 0.1F;
+    public float field_35168_bw = 0.02F;
     
     public boolean can_double_jump = true;
     public boolean has_double_jump_power = true;
@@ -458,8 +460,9 @@ public abstract class EntityLiving extends Entity {
     }
 
     public void moveEntityWithHeading(float var1, float var2) {
+        boolean flag = !(this instanceof EntityPlayer) || !((EntityPlayer)this).playerCapabilities.flying;
         double var3;
-        if (this.isInWater()) {
+        if (this.isInWater() && flag) {
             var3 = this.posY;
             this.moveFlying(var1, var2, 0.02F);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -470,7 +473,7 @@ public abstract class EntityLiving extends Entity {
             if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6000000238418579D - this.posY + var3, this.motionZ)) {
                 this.motionY = 0.30000001192092896D;
             }
-        } else if (this.handleLavaMovement()) {
+        } else if (this.handleLavaMovement() && flag) {
             var3 = this.posY;
             this.moveFlying(var1, var2, 0.02F);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -491,7 +494,7 @@ public abstract class EntityLiving extends Entity {
                 }
             }
 
-            float var9 = 0.16277136F / (var8 * var8 * var8);
+            float var9 = this.onGround ? 0.16277136F / (var8 * var8 * var8) : this.field_35168_bw;
             this.moveFlying(var1, var2, this.onGround ? 0.1F * var9 : 0.02F);
             var8 = 0.91F;
             if (this.onGround) {
@@ -502,7 +505,7 @@ public abstract class EntityLiving extends Entity {
                 }
             }
 
-            if (this.isOnLadder()) {
+            if (this.isOnLadder() && flag) {
                 float var10 = 0.15F;
                 if (this.motionX < (double)(-var10)) {
                     this.motionX = (double)(-var10);
@@ -552,6 +555,8 @@ public abstract class EntityLiving extends Entity {
         this.legYaw += (var7 - this.legYaw) * 0.4F;
         this.legSwing += this.legYaw;
     }
+
+
 
     public boolean isOnLadder() {
         int var1 = MathHelper.floor_double(this.posX);
@@ -630,8 +635,6 @@ public abstract class EntityLiving extends Entity {
             this.updatePlayerActionState();
         }
 
-        boolean var14 = this.isInWater();
-        boolean var2 = this.handleLavaMovement();
         /*if (this.isJumping) {
         	if (this.can_double_jump && this.has_double_jump_power) {
         		if (var14) {
@@ -660,13 +663,16 @@ public abstract class EntityLiving extends Entity {
         	this.jumps = 0;
         	this.can_double_jump = true;
         }*/
-        if (this.isJumping) {
-        	if (var14) {
-                this.motionY += 0.03999999910593033D;
-        	} else if (var2) {
-                this.motionY += 0.03999999910593033D;
-        	} else if (this.onGround) {
-               this.jump();
+        boolean var14 = !(this instanceof EntityPlayer) || !((EntityPlayer)this).playerCapabilities.flying;
+        boolean flag = this.isInWater() && var14;
+        boolean var2 = this.handleLavaMovement() && var14;
+        if(this.isJumping) {
+            if(flag) {
+                this.motionY += (double)0.04F;
+            } else if(var2) {
+                this.motionY += (double)0.04F;
+            } else if(this.onGround) {
+                this.jump();
             }
         }
 
@@ -692,6 +698,11 @@ public abstract class EntityLiving extends Entity {
 
     protected void jump() {
         this.motionY = 0.41999998688697815D;
+        if(this.sprint) {
+            float f = this.rotationYaw * 0.01745329F;
+            this.motionX -= (double)(MathHelper.sin(f) * 0.17F);
+            this.motionZ += (double)(MathHelper.cos(f) * 0.17F);
+        }
     }
 
     protected boolean canDespawn() {

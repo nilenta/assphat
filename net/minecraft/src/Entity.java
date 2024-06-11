@@ -71,6 +71,8 @@ public abstract class Entity {
     public int serverPosY;
     public int serverPosZ;
     public boolean ignoreFrustumCheck;
+
+    public boolean sprint = false;
     
     public boolean flying;
 
@@ -610,20 +612,25 @@ public abstract class Entity {
         return this.worldObj.isMaterialInBB(this.boundingBox.expand(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D), Material.lava);
     }
 
-    public void moveFlying(float var1, float var2, float var3) {
-        float var4 = MathHelper.sqrt_float(var1 * var1 + var2 * var2);
-        if (var4 >= 0.01F) {
-            if (var4 < 1.0F) {
-                var4 = 1.0F;
+    public void moveFlying(float f, float f1, float f2) {
+        float f3 = MathHelper.sqrt_float(f * f + f1 * f1);
+        if(f3 >= 0.01F) {
+            if(f3 < 1.0F) {
+                f3 = 1.0F;
             }
 
-            var4 = var3 / var4;
-            var1 *= var4;
-            var2 *= var4;
-            float var5 = MathHelper.sin(this.rotationYaw * 3.1415927F / 180.0F);
-            float var6 = MathHelper.cos(this.rotationYaw * 3.1415927F / 180.0F);
-            this.motionX += (double)(var1 * var6 - var2 * var5);
-            this.motionZ += (double)(var2 * var6 + var1 * var5);
+            f3 = f2 / f3;
+            if(this instanceof EntityPlayer && ((EntityPlayer)this).playerCapabilities.flying && ((EntityPlayer) this).sprint) {
+                f3 += 0.02F;
+                f3 += 0.02F;
+            }
+
+            f *= f3;
+            f1 *= f3;
+            float f4 = MathHelper.sin(this.rotationYaw * 3.141593F / 180.0F);
+            float f5 = MathHelper.cos(this.rotationYaw * 3.141593F / 180.0F);
+            this.motionX += (double)(f * f5 - f1 * f4);
+            this.motionZ += (double)(f1 * f5 + f * f4);
         }
     }
 

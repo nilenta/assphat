@@ -14,7 +14,7 @@ public class GuiTests_Entities extends GuiScreen {
         this.controlList.add(new GuiButton(170, this.width / 2 - 100, this.height / 4 + 0 + var1, 98, 20, "entity test"));
         this.controlList.add(new GuiButton(171, this.width / 2 + 2, this.height / 4 + 0 + var1, 98, 20, "pig rain"));
         
-        this.controlList.add(new GuiButton(172, this.width / 2 - 100, this.height / 4 + 24 + var1, 98, 20, "what if the fly"));
+        this.controlList.add(new GuiButton(172, this.width / 2 - 100, this.height / 4 + 24 + var1, 98, 20, "toggle creative"));
            
     	this.controlList.add(new GuiButton(15000, this.width / 2 - 100, this.height / 6 + 168, "Done"));
     }
@@ -43,9 +43,13 @@ public class GuiTests_Entities extends GuiScreen {
             	this.mc.thePlayer.addChatMessage("spawned an entity");
             }
             if (var1.id == 172) {
-            	this.mc.thePlayer.flying = !this.mc.thePlayer.flying;
-            	this.mc.thePlayer.noClip = !this.mc.thePlayer.noClip;
-            	//this.mc.gameSettings.debugCamEnable = !this.mc.gameSettings.debugCamEnable;
+                if (this.mc.thePlayer.playerCapabilities.gameType == 0) {
+                    this.mc.thePlayer.playerCapabilities.gameType = 1;
+                    this.mc.thePlayer.addChatMessage("ur now creative");
+                } else {
+                    this.mc.thePlayer.playerCapabilities.gameType = 0;
+                    this.mc.thePlayer.addChatMessage("ur now survival");
+                }
             	
             }
         }

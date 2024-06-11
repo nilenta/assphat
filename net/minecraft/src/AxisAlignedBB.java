@@ -43,6 +43,16 @@ public class AxisAlignedBB {
         this.maxZ = var11;
     }
 
+    public AxisAlignedBB func_28195_e(double var1, double var3, double var5) {
+        double var7 = this.minX + var1;
+        double var9 = this.minY + var3;
+        double var11 = this.minZ + var5;
+        double var13 = this.maxX - var1;
+        double var15 = this.maxY - var3;
+        double var17 = this.maxZ - var5;
+        return getBoundingBoxFromPool(var7, var9, var11, var13, var15, var17);
+    }
+
     public AxisAlignedBB setBounds(double var1, double var3, double var5, double var7, double var9, double var11) {
         this.minX = var1;
         this.minY = var3;
