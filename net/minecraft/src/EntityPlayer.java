@@ -388,6 +388,8 @@ public abstract class EntityPlayer extends EntityLiving {
         }
 
         this.playerCapabilities.flying = var1.getBoolean("isFlying");
+        this.playerCapabilities.gameType = var1.getInteger("gameType");
+
 
     }
 
@@ -404,6 +406,8 @@ public abstract class EntityPlayer extends EntityLiving {
         }
 
         var1.setBoolean("isFlying", this.playerCapabilities.flying);
+        var1.setInteger("gameType", this.playerCapabilities.gameType);
+
 
     }
 
