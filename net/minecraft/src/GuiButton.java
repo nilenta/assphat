@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButton extends Gui {
+    public boolean isTouchingMouse;
     protected int width;
     protected int height;
     public int xPosition;
@@ -15,6 +16,10 @@ public class GuiButton extends Gui {
 
     public GuiButton(int var1, int var2, int var3, String var4) {
         this(var1, var2, var3, 200, 20, var4);
+    }
+
+    protected boolean getIsTouchingMouse() {
+        return this.isTouchingMouse;
     }
 
     public GuiButton(int var1, int var2, int var3, int var4, int var5, String var6) {
@@ -47,6 +52,7 @@ public class GuiButton extends Gui {
             GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, var1.renderEngine.getTexture("/gui/gui.png"));
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean var5 = var2 >= this.xPosition && var3 >= this.yPosition && var2 < this.xPosition + this.width && var3 < this.yPosition + this.height;
+            this.isTouchingMouse = var5;
             int var6 = this.getHoverState(var5);
             this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + var6 * 20, this.width / 2, this.height);
             this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + var6 * 20, this.width / 2, this.height);

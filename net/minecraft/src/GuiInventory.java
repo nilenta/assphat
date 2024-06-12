@@ -16,7 +16,9 @@ public class GuiInventory extends GuiContainer {
     public void initGui() {
 
         this.controlList.clear();
-
+        if (this.mc.thePlayer.playerCapabilities.gameType == 1) {
+            this.controlList.add(new GuiButton(2, this.width / 2 + 90, this.height / 4 + 96 + 12, 20, 20, "C"));
+        }
     }
 
     protected void drawGuiContainerForegroundLayer() {
@@ -76,6 +78,10 @@ public class GuiInventory extends GuiContainer {
 
         if (var1.id == 1) {
             this.mc.displayGuiScreen(new GuiStats(this, this.mc.statFileWriter));
+        }
+
+        if (var1.id == 2) {
+            this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
         }
 
     }

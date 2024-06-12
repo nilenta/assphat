@@ -105,7 +105,7 @@ public abstract class GuiContainer extends GuiScreen {
         itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, var4, var2, var3);
     }
 
-    private Slot getSlotAtPosition(int var1, int var2) {
+    Slot getSlotAtPosition(int var1, int var2) {
         for(int var3 = 0; var3 < this.inventorySlots.slots.size(); ++var3) {
             Slot var4 = (Slot)this.inventorySlots.slots.get(var3);
             if (this.getIsMouseOverSlot(var4, var1, var2)) {
