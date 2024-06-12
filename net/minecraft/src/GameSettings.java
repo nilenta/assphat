@@ -36,7 +36,7 @@ public class GameSettings {
     public KeyBinding keyBindToggleFog = new KeyBinding("key.fog", 33);
     public KeyBinding keyBindSneak = new KeyBinding("key.sneak", 42);
     public KeyBinding[] keyBindings;
-    protected Minecraft mc;
+    public Minecraft mc;
     private File optionsFile;
     public int difficulty;
     public boolean hideGUI;

@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import java.util.Random;
+import java.util.List;
 
 public class Item {
     protected static Random itemRand = new Random();

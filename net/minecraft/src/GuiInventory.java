@@ -10,10 +10,13 @@ public class GuiInventory extends GuiContainer {
         super(var1.inventorySlots);
         this.allowUserInput = true;
         var1.addStat(AchievementList.openInventory, 1);
+
     }
 
     public void initGui() {
+
         this.controlList.clear();
+
     }
 
     protected void drawGuiContainerForegroundLayer() {
@@ -27,6 +30,7 @@ public class GuiInventory extends GuiContainer {
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1) {
+
         int var2 = this.mc.renderEngine.getTexture("/gui/inventory.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture(var2);

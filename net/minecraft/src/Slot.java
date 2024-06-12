@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class Slot {
     private final int slotIndex;
-    private final IInventory inventory;
+    final IInventory inventory;
     public int slotNumber;
     public int xDisplayPosition;
     public int yDisplayPosition;

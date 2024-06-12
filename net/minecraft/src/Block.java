@@ -13,6 +13,7 @@ public class Block {
     public static final StepSound soundGlassFootstep = new StepSoundStone("stone", 1.0F, 1.0F);
     public static final StepSound soundClothFootstep = new StepSound("cloth", 1.0F, 1.0F);
     public static final StepSound soundSandFootstep = new StepSoundSand("sand", 1.0F, 1.0F);
+    public String textureName;
     public static final Block[] blocksList = new Block[256];
     public static final boolean[] tickOnLoad = new boolean[256];
     public static final boolean[] opaqueCubeLookup = new boolean[256];
@@ -337,6 +338,9 @@ public class Block {
     }
 
     public float blockStrength(EntityPlayer var1) {
+        if (var1.playerCapabilities.gameType == 1) {
+            return 1.0F;
+        }
         if (this.blockHardness < 0.0F) {
             return 0.0F;
         } else {
@@ -600,6 +604,7 @@ public class Block {
         this.enableStats = false;
         return this;
     }
+
 
     public int getMobilityFlag() {
         return this.blockMaterial.getMaterialMobility();

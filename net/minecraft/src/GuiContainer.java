@@ -15,6 +15,7 @@ public abstract class GuiContainer extends GuiScreen {
 
     public void initGui() {
         super.initGui();
+
         this.mc.thePlayer.craftingInventory = this.inventorySlots;
     }
 

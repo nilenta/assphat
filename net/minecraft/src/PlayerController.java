@@ -101,4 +101,15 @@ public class PlayerController {
         var2.craftingInventory.onCraftGuiClosed(var2);
         var2.craftingInventory = var2.inventorySlots;
     }
+
+    public boolean func_35640_h() {
+        return false;
+    }
+
+    public void func_35637_a(ItemStack itemstack, int i) {
+    }
+
+    public void func_35639_a(ItemStack itemstack) {
+    }
+
 }

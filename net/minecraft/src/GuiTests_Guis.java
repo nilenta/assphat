@@ -27,7 +27,7 @@ public class GuiTests_Guis extends GuiScreen {
             
             if (var1.id == 170) {
             	//this.mc.gameSettings.saveOptions();
-                //this.mc.displayGuiScreen(new GuiTests_Creative(this, this.statFileWriter));
+                this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
             }
         }
     }
@@ -41,7 +41,7 @@ public class GuiTests_Guis extends GuiScreen {
         super.drawScreen(var1, var2, var3);
         */
     	this.drawDefaultBackground();
-    	this.drawCenteredString(this.fontRenderer, "particle testing", this.width / 2, 20, 16777215);
+    	this.drawCenteredString(this.fontRenderer, "gui testing", this.width / 2, 20, 16777215);
         super.drawScreen(var1, var2, var3);
     }
 
